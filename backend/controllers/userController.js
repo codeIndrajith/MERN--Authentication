@@ -5,9 +5,45 @@ import asyncHandler from 'express-async-handler';
 // @access  Public
 
 const authUser = asyncHandler(async (req, res) => {
-  res.status(401);
-  throw new Error('Something went wrong');
   res.status(200).json({ message: 'Auth User' });
 });
 
-export { authUser };
+// @desc    Register a new user
+// routes   POST /api/users
+// @access  Public
+
+const registerUser = asyncHandler(async (req, res) => {
+  res.status(200).json({ message: 'Register User' });
+});
+
+// @desc    Logout user
+// routes   POST /api/users/logout
+// @access  Public
+
+const logoutUser = asyncHandler(async (req, res) => {
+  res.status(200).json({ message: 'Logout User' });
+});
+
+// @desc    Get user profile
+// routes   GET /api/users/profile
+// @access  Private
+
+const getUserProfile = asyncHandler(async (req, res) => {
+  res.status(200).json({ message: 'User Profile' });
+});
+
+// @desc    Update user profile
+// routes   PUT /api/users/profile
+// @access  Private
+
+const updateUserProfile = asyncHandler(async (req, res) => {
+  res.status(200).json({ message: 'Update user profile' });
+});
+
+export {
+  authUser,
+  registerUser,
+  logoutUser,
+  getUserProfile,
+  updateUserProfile,
+};
