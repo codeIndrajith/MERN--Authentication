@@ -2,6 +2,18 @@
 @tailwind components;
 @tailwind utilities;
 
+/* Common styles for both small and large screens */
+
 body {
-  overflow: hidden;
+  overflow: auto; /* Reset default margin */
 }
+
+/* Small screens (up to 767px) */
+@media only screen and (max-width: 767px) {
+  body {
+    overflow: auto; /* Hide overflow on small screens */
+  }
+
+  /* Add any specific styles for small screens here */
+}
+
