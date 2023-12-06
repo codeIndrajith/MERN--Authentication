@@ -7,7 +7,7 @@ function Hero() {
     <div className="flex justify-center items-center space-x-36 p-6 bg-green-400 h-screen">
       <div className="flex flex-col justify-center w-[40%] space-y-4">
         <div>
-          <p className="text-4xl font-bold">Secure MERN</p>
+          <p className="text-4xl font-bold">MERN</p>
         </div>
         <div>
           <p>

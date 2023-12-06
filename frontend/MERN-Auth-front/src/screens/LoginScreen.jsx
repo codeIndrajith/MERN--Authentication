@@ -8,6 +8,8 @@ import { MdEmail } from 'react-icons/md';
 import { RiLockPasswordFill } from 'react-icons/ri';
 import { useLoginMutation } from '../slices/usersApiSlices';
 import { setCredentials } from '../slices/authSlice';
+import { toast } from 'react-toastify';
+import Loader from '../components/Loader';
 
 function LoginScreen() {
   const [email, setEmail] = useState('');
@@ -33,7 +35,7 @@ function LoginScreen() {
       dispatch(setCredentials({ ...res }));
       navigate('/');
     } catch (error) {
-      console.log(error?.data?.message || error.error);
+      toast.error(error?.data?.message || error.error);
     }
   };
 
@@ -87,6 +89,9 @@ function LoginScreen() {
                 />
               </div>
             </div>
+
+            {/* loading effect */}
+            {isLoading && <Loader />}
 
             {/* button section */}
             <div className="flex justify-center items-center mt-5">
