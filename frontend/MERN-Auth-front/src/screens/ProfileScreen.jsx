@@ -2,17 +2,17 @@ import React, { useState, useEffect } from 'react';
 import FormController from '../components/FormController';
 import { Link, useNavigate } from 'react-router-dom';
 import { FaUser } from 'react-icons/fa';
-import registerImage from '../images/register.svg';
+import updateImage from '../images/update.svg';
 import { MdEmail } from 'react-icons/md';
 import { RiLockPasswordFill } from 'react-icons/ri';
 import { useDispatch, useSelector } from 'react-redux';
+import { useUpdateUserMutation } from '../slices/usersApiSlices';
 import { IoMdPerson } from 'react-icons/io';
 import { toast } from 'react-toastify';
 import Loader from '../components/Loader';
-import { useRegisterMutation } from '../slices/usersApiSlices';
 import { setCredentials } from '../slices/authSlice';
 
-function LoginScreen() {
+function ProfileScreen() {
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -22,14 +22,12 @@ function LoginScreen() {
   const dispatch = useDispatch();
 
   const { userInfo } = useSelector((state) => state.auth);
-
-  const [register, { isLoading }] = useRegisterMutation();
+  const [updateProfile, { isLoading }] = useUpdateUserMutation();
 
   useEffect(() => {
-    if (userInfo) {
-      navigate('/');
-    }
-  }, [navigate, userInfo]);
+    setName(userInfo.name);
+    setEmail(userInfo.email);
+  }, [userInfo.setName, userInfo.setEmail]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -37,9 +35,14 @@ function LoginScreen() {
       toast.error('Password do not match');
     } else {
       try {
-        const res = await register({ name, email, password }).unwrap();
+        const res = await updateProfile({
+          _id: userInfo.id,
+          name,
+          email,
+          password,
+        }).unwrap();
         dispatch(setCredentials({ ...res }));
-        navigate('/');
+        toast.success('Profile updated');
       } catch (error) {
         toast.error(error?.data?.message || error.error);
       }
@@ -50,17 +53,17 @@ function LoginScreen() {
     <FormController>
       <div className="flex justify-center items-center h-screen p-6">
         {/* image section */}
-        <div className="w-[700px] h-screen mb-14 flex justify-center items-center">
-          <img src={registerImage} alt="register image" />
+        <div className="w-[500px] h-screen mb-14 flex justify-center items-center">
+          <img src={updateImage} alt="Update image" />
         </div>
 
         {/* form section */}
         <div className="flex flex-col justify-center items-center w-1/2 h-screen space-y-2 p-14">
-          <div>
+          <div className="flex flex-col justify-center items-center">
             <span>
               <FaUser className="text-[70px] text-amber-600" />
             </span>
-            <h1 className="text-xl font-bold uppercase">Sign Up</h1>
+            <h1 className="text-xl font-bold uppercase">Update Profile</h1>
           </div>
 
           <form onSubmit={handleSubmit} className="w-full space-y-3">
@@ -140,18 +143,8 @@ function LoginScreen() {
                 type="submit"
                 className="p-1 w-1/4 rounded-full bg-amber-600 font-bold uppercase text-md text-white transition duration-300 transform hover:bg-amber-700 hover:shadow-md focus:outline-none focus:ring focus:border-amber-700"
               >
-                Register
+                Update
               </button>
-            </div>
-
-            {/* Go link to register page section */}
-            <div className="flex justify-between items-center mt-10 ml-10">
-              <p className="text-[15px] text-gray-600 ml-10">
-                Already a member ?
-              </p>
-              <Link to={'/login'} className="text-md font-bold mr-16">
-                Log In
-              </Link>
             </div>
           </form>
         </div>
@@ -160,4 +153,4 @@ function LoginScreen() {
   );
 }
 
-export default LoginScreen;
+export default ProfileScreen;
