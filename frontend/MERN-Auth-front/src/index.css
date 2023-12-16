@@ -5,7 +5,9 @@
 /* Common styles for both small and large screens */
 
 body {
-  overflow: auto; /* Reset default margin */
+  overflow: hidden; /* Reset default margin */
+  height: 100vh;
+  width: 100%;
 }
 
 /* Small screens (up to 767px) */
